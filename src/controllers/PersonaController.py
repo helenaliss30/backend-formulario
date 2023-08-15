@@ -12,9 +12,9 @@ class PersonaController:
     def postPersona(self, data):
         personas = self.db["personas"]
         validation_error = validation_persona(data)
-        print(validation_error)
         if validation_error:
             return None, validation_error, 400
+        print(validation_error)
         persona = Persona(
             data["nombre"],
             data["apellido"],
@@ -27,5 +27,4 @@ class PersonaController:
         )
         personaCollection = persona.toDBCollection()
         id_persona = personas.insert_one(personaCollection)
-        print(personaCollection)
         return id_persona.inserted_id, "Persona Guardada Exitosamente", 201
