@@ -76,16 +76,6 @@ def get_persona(current_user, persona_id):
     return {"message": message, "data": None, ok: ok}, status_code
 
 
-@routes.route("/personas/update/<persona_id>", methods=["PUT"])
-@jwt_required
-def update_persona(current_user, persona_id):
-    persona_controller = PersonaController()
-    _, message, status_code, ok = persona_controller.updatePersona(
-        persona_id, request.json
-    )
-    return {"message": message, "data": (persona_id), "ok": ok}, status_code
-
-
 @routes.route("/personas/delete/<persona_id>", methods=["DELETE"])
 @jwt_required
 def delete_persona(current_user, persona_id):
