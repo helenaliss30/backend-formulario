@@ -1,0 +1,65 @@
+/* Reset de estilos y fuentes predeterminadas */
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* Estilos del formulario */
+form {
+  margin-top: -55px;
+  background-color: rgba(255,255,255,0.1);
+  max-width: 425px;
+  padding: 20px 20px;
+  border: 1px solid #f3f0f0;
+  border-radius: 40px;
+  backdrop-filter: blur(1px);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para etiquetas */
+label {
+  margin-Top: -2px;
+  display: block;
+  margin-bottom: 8px;
+  text-align: center;
+  color: rgb(0, 0, 0);
+}
+
+/* Estilos para campos de entrada */
+input {
+  width: 80%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s;
+}
+
+/* Estilos de enfoque para campos de entrada */
+input:focus {
+  border-color: #007bff;
+}
+
+/* Estilos para el botón de envío */
+button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Estilos de botón de envío al pasar el mouse */
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos para mensajes de error */
+.error-message {
+  color: #d9534f;
+  font-size: 12px;
+}

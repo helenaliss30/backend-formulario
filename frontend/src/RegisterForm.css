@@ -1,0 +1,46 @@
+.login-form {
+    margin: 0 auto;
+    max-width: 600px; /* Cambia el valor para hacer el formulario más ancho */
+    padding: 40px; /* Aumenta el padding para dar más espacio interno */
+    border-radius: 40px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    border: 1px solid #f3f0f0;
+    backdrop-filter: blur(1px);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  
+  .login-form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .login-form input[type="email"],
+  .login-form input[type="password"] {
+   
+    transition: border-color 0.3s;
+    width: 90%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .login-form button {
+    display: block;
+    width: 98%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .login-form button:hover {
+    background-color: #0056b3;
+  }
+  
