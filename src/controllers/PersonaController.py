@@ -49,32 +49,6 @@ class PersonaController:
 
         return personas_list, "Lista de personas obtenida exitosamente", 200, True
 
-    def updatePersona(self, persona_id, data):
-        personas = self.db["personas"]
-        validation_error = validation_persona(data)
-        if validation_error:
-            return persona_id, validation_error, 400, False
-
-        persona_data = personas.find_one({"_id": ObjectId(persona_id)})
-        if not persona_data:
-            return persona_id, "Persona no encontrada", 404, False
-
-        updated_persona = Persona(
-            nombre=data["nombre"],
-            apellido=data["apellido"],
-            edad=data["edad"],
-            cedula=data["cedula"],
-            correo_electronico=data["correo_electronico"],
-            enfermedades=data["enfermedades"],
-            alergias=data["alergias"],
-            medicamentos=data["medicamentos"],
-        )
-
-        personas.update_one(
-            {"_id": ObjectId(persona_id)}, {"$set": updated_persona.toDBCollection()}
-        )
-        return persona_id, "Persona actualizada exitosamente", 200, True
-
     def deletePersona(self, persona_id):
         personas = self.db["personas"]
 
