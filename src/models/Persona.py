@@ -1,15 +1,17 @@
 class Persona:
     def __init__(
         self,
-        nombre,
-        apellido,
-        edad,
-        cedula,
-        correo_electronico,
-        enfermedades,
-        alergias,
-        medicamentos,
+        id=None,  # Agregar _id como parámetro opcional con valor predeterminado None
+        nombre=None,
+        apellido=None,
+        edad=None,
+        cedula=None,
+        correo_electronico=None,
+        enfermedades=None,
+        alergias=None,
+        medicamentos=None,
     ):
+        self.id = id  # Asignar el valor de _id al atributo
         self.nombre = nombre
         self.apellido = apellido
         self.edad = edad
@@ -20,7 +22,7 @@ class Persona:
         self.medicamentos = medicamentos
 
     def toDBCollection(self):
-        return {
+        data = {
             "nombre": self.nombre,
             "apellido": self.apellido,
             "edad": self.edad,
@@ -30,3 +32,6 @@ class Persona:
             "alergias": self.alergias,
             "medicamentos": self.medicamentos,
         }
+        if self.id:
+            data["id"] = self.id
+        return data

@@ -41,3 +41,24 @@ def validation_persona(data):
     # Por ejemplo, verificar que la edad sea un número entero positivo, etc.
 
     return None
+
+
+def validation_user(data):
+    required_fields = [
+        "correo_electronico",
+        "contrasenia",
+        "confirmar_contrasenia",
+    ]
+    for field in required_fields:
+        if field not in data or not data[field]:
+            return f"El campo '{field}' es obligatorio y no puede estar vacío."
+
+    email_pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    if not re.match(email_pattern, data["correo_electronico"]):
+        return "El correo electrónico no tiene un formato válido."
+
+    if str(data["contrasenia"]) != str(data["confirmar_contrasenia"]):
+        print("La contraseña no coinciden")
+        return "La contraseña no coinciden"
+
+    return None
