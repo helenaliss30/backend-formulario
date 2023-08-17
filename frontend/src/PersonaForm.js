@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import QRCode from 'qrcode.react';
 import './formulario.css';
 
 const API= process.env.REACT_APP_API;
@@ -26,6 +27,33 @@ function PersonaForm() {
     medicamentos: '',
     general: '',
   });
+
+  const handleClear = () => {
+    setFormData({
+      nombre: '',
+      apellido: '',
+      edad: '',
+      cedula: '',
+      correo_electronico: '',
+      enfermedades: [],
+      alergias: [],
+      medicamentos: [],
+    });
+    setErrorMessages({
+      nombre: '',
+      apellido: '',
+      edad: '',
+      cedula: '',
+      correo_electronico: '',
+      enfermedades: '',
+      alergias: '',
+      medicamentos: '',
+      general: '',
+    });
+    setQRCodeValue('');
+  };
+
+  const [qrCodeValue, setQRCodeValue] = useState(''); 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -58,6 +86,8 @@ function PersonaForm() {
       const data = await response.json();
       console.log(data)
       if (response.ok) {
+        //Generar el codigo QR
+        setQRCodeValue(formData.cedula); // Actualiza el valor del QR
         console.log('Response from server:', data);
       } else {
         setErrorMessages(data.message || {});
@@ -69,115 +99,115 @@ function PersonaForm() {
   };
 
   return (
-    // <div>
-    <form onSubmit={handleSubmit}>
-      <label>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label>
+          
+          <input
+            type="text"
+            name="nombre"
+            value={formData.nombre}
+            onChange={handleInputChange}
+            placeholder="Nombre"
+          />
+          <span className="error-message">{errorMessages.nombre}</span>
+        </label>
+
+        <label>
+
+          <input
+            type="text"
+            name="apellido"
+            value={formData.apellido}
+            onChange={handleInputChange}
+            placeholder="Apellido"
+          />
+          <span className="error-message">{errorMessages.apellido}</span>
+        </label>
         
-        <input
-          type="text"
-          name="nombre"
-          value={formData.nombre}
-          onChange={handleInputChange}
-          placeholder="Nombre"
-        />
-        <span className="error-message">{errorMessages.nombre}</span>
-      </label>
 
-      <label>
+        <label>
 
-        <input
-          type="text"
-          name="apellido"
-          value={formData.apellido}
-          onChange={handleInputChange}
-          placeholder="Apellido"
-        />
-        <span className="error-message">{errorMessages.apellido}</span>
-      </label>
-      
+          <input
+            type="number"
+            name="edad"
+            value={formData.edad}
+            onChange={handleInputChange}
+            placeholder="Edad"
+          />
+          <span className="error-message">{errorMessages.edad}</span>
+        </label>
+        
 
-      <label>
+        <label>
 
-        <input
-          type="number"
-          name="edad"
-          value={formData.edad}
-          onChange={handleInputChange}
-          placeholder="Edad"
-        />
-        <span className="error-message">{errorMessages.edad}</span>
-      </label>
-      
+          <input
+            type="text"
+            name="cedula"
+            value={formData.cedula}
+            onChange={handleInputChange}
+            placeholder="Cédula"
+          />
+          <span className="error-message">{errorMessages.cedula}</span>
+        </label>
 
-      <label>
+        <label>
 
-        <input
-          type="text"
-          name="cedula"
-          value={formData.cedula}
-          onChange={handleInputChange}
-          placeholder="Cédula"
-        />
-        <span className="error-message">{errorMessages.cedula}</span>
-      </label>
+          <input
+            type="email"
+            name="correo_electronico"
+            value={formData.correo_electronico}
+            onChange={handleInputChange}
+            placeholder="Correo Electrónico"
+          />
+          <span className="error-message">{errorMessages.correo_electronico}</span>
+        </label>
 
-      <label>
+        <label>
+          Enfermedades (separadas por coma)
+          <input
+            type="text"
+            name="enfermedades"
+            value={formData.enfermedades.join(', ')}
+            onChange={handleArrayChange}
+            placeholder="Enfermedades"
+          />
+          <span className="error-message">{errorMessages.enfermedades}</span>
+        </label>
 
-        <input
-          type="email"
-          name="correo_electronico"
-          value={formData.correo_electronico}
-          onChange={handleInputChange}
-          placeholder="Correo Electrónico"
-        />
-        <span className="error-message">{errorMessages.correo_electronico}</span>
-      </label>
+        <label>
+          Alergias (separadas por comas):
+          <input
+            type="text"
+            name="alergias"
+            value={formData.alergias.join(', ')}
+            onChange={handleArrayChange}
+            placeholder="Alergias"
+          />
+          <span className="error-message">{errorMessages.alergias}</span>
+        </label>
 
-      <label>
-        Enfermedades (separadas por coma)
-        <input
-          type="text"
-          name="enfermedades"
-          value={formData.enfermedades.join(', ')}
-          onChange={handleArrayChange}
-          placeholder="Enfermedades"
-        />
-        <span className="error-message">{errorMessages.enfermedades}</span>
-      </label>
-
-      <label>
-        Alergias (separadas por comas):
-        <input
-          type="text"
-          name="alergias"
-          value={formData.alergias.join(', ')}
-          onChange={handleArrayChange}
-          placeholder="Alergias"
-        />
-        <span className="error-message">{errorMessages.alergias}</span>
-      </label>
-
-      <label>
-        Medicamentos (separados por comas):
-        <input
-          type="text"
-          name="medicamentos"
-          value={formData.medicamentos.join(', ')}
-          onChange={handleArrayChange}
-          placeholder="Medicamentos"
-        />
-        <span className="error-message">{errorMessages.medicamentos}</span>
-      </label>
-      <button type="submit">Guardar</button>
-      <span className="error-message">{errorMessages.general}</span>
-    </form>
-    // {/* {showQR &&(
-    //   <div className="qr-container">
-    //     <h2>Codigo QR Generado:</h2>
-    //     <QRCode value={qrContent} size={256}/>
-    //   </div>
-    // )}
-    // </div> */}
+        <label>
+          Medicamentos (separados por comas):
+          <input
+            type="text"
+            name="medicamentos"
+            value={formData.medicamentos.join(', ')}
+            onChange={handleArrayChange}
+            placeholder="Medicamentos"
+          />
+          <span className="error-message">{errorMessages.medicamentos}</span>
+        </label>
+        <button type="submit">Guardar</button>
+        <button type="button" onClick={handleClear}>Limpiar</button>
+        <span className="error-message">{errorMessages.general}</span>
+      </form>
+      {qrCodeValue && (
+        <div className="qr-code-container">
+          <QRCode value={qrCodeValue} />
+        </div>
+      )}
+    </div>
   );
 }
 
