@@ -9,6 +9,7 @@ class Persona:
         enfermedades,
         alergias,
         medicamentos,
+        qr_url,  # Nuevo campo qr_url
     ):
         self.nombre = nombre
         self.apellido = apellido
@@ -17,7 +18,9 @@ class Persona:
         self.correo_electronico = correo_electronico
         self.enfermedades = enfermedades
         self.alergias = alergias
-        self.medicamentos = medicamentos
+        self.medicamentos = medicamentos,
+        self.qr_url = qr_url  # Asignación del nuevo campo qr_url
+
 
     def toDBCollection(self):
         return {
@@ -29,4 +32,6 @@ class Persona:
             "enfermedades": self.enfermedades,
             "alergias": self.alergias,
             "medicamentos": self.medicamentos,
+            "qr_url": self.qr_url,  # Inclusión del nuevo campo qr_url en el diccionario
+
         }

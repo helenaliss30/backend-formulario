@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import QRCode from 'qrcode.react';
+import QRCode from "qrcode";
 import './formulario.css';
 
 const API= process.env.REACT_APP_API;
@@ -53,7 +53,7 @@ function PersonaForm() {
     setQRCodeValue('');
   };
 
-  const [qrCodeValue, setQRCodeValue] = useState(''); 
+  const [qrCodeValue, setQRCodeValue] = useState(null); 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -63,6 +63,20 @@ function PersonaForm() {
     }));
   };
 
+  const generateQRImageBase64 = value => {
+    // Cambia esta URL por la que necesites
+    const canvas = document.createElement("canvas");
+    QRCode.toCanvas(canvas, value, error => {
+      if (error) {
+        console.error(error);
+      } else {
+        const QR_IMAGE = canvas.toDataURL("image/png");
+        crearPersona(QR_IMAGE);
+        setQRCodeValue(QR_IMAGE);
+      }
+    });
+  };
+
   const handleArrayChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -70,34 +84,40 @@ function PersonaForm() {
       [name]: value.split(',').map((item) => item.trim()),
     }));
   };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const crearPersona = async qrImageBase64 => {
     try {
+      const dataFetch = {
+        ...formData,
+        qr_image: qrImageBase64
+      }
+      console.log(dataFetch)
       const response = await fetch(`${API}/personas`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(dataFetch),
       });
-    
+
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       if (response.ok) {
-        //Generar el codigo QR
-        setQRCodeValue(formData.cedula); // Actualiza el valor del QR
-        console.log('Response from server:', data);
+        console.log("Response from server:", data);
       } else {
         setErrorMessages(data.message || {});
       }
     } catch (error) {
       console.error(error);
-      setErrorMessages({ general: 'Ocurrio Un Error. Please try again later.' });
+      setErrorMessages({
+        general: "Ocurrio Un Error. Please try again later.",
+      });
     }
   };
-
+  const handleSubmit = e => {
+    e.preventDefault();
+    generateQRImageBase64(formData.cedula);
+  };
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -204,7 +224,7 @@ function PersonaForm() {
       </form>
       {qrCodeValue && (
         <div className="qr-code-container">
-          <QRCode value={qrCodeValue} />
+          <img src={qrCodeValue} alt="QR Code" />
         </div>
       )}
     </div>
